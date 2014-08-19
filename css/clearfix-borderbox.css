@@ -1,0 +1,17 @@
+.clearfix:after {
+
+  display: block;
+  clear: both;
+  content: "";
+}
+
+.clear {
+  clear: both;
+}
+
+
+* {
+  -moz-box-sizing: border-box; 
+  -webkit-box-sizing: border-box; 
+  box-sizing: border-box;
+}
