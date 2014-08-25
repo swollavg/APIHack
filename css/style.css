@@ -113,19 +113,12 @@
 	height: 149px;
 }
 
-.main-content-wrapper {
-}
-
-.main-content-wrapper div {
-}
-
 .description-wrapper {
 	float: left;
+	width: 60%;
 }
 
 .overview {
-	width: 40%;
-	float: right;
 	margin-top: 10px;
 	padding-right: 25px;
 }
@@ -152,16 +145,22 @@
 
 .description-title {
 	font-family: 'cute_strawberry2_by_uniquesRg';
-	font-size: 200%;
-	float: left;
-	margin-left: 120px;
+	font-size: 210%;
+	text-align: center;
 }
 
 .description {
-	width: 60%;
 	font-family: 'Arvo', serif;
 	float: left;
 	display: block;
+	line-height: 1.2;
+	margin-top: 10px;
+}
+.describe {
+	font-family: 'Arvo', serif;
+	font-size: 120%;
+	font-weight: bold;
+	font-style: italic;
 }
 
 .overview h2 {
@@ -181,8 +180,6 @@
 }
 
 .seller-info {
-	width: 40%;
-	float: right;
 	margin-top: 10px;
 }
 
@@ -196,6 +193,12 @@
 .seller-info a {
 	display: inline-block;
 	font-size: 110%;
+}
+
+
+.detail-wrapper {
+	width: 40%;
+	float: right;
 }
 
 .favorite-wrapper {
@@ -271,7 +274,7 @@
 
 .add-cart {
 	float: left;
-	margin-top: 30px;
+	margin-top: 28px;
 	width: 400px;
 	display: block;
 	padding: 7px 15px 8px;
