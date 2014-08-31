@@ -18,6 +18,10 @@
 	border-radius: 5px;
 }
 
+.hide {
+	visibility: hidden;
+}
+
 .shirt {
 	background: rgba(28,213,255,1);
 	background: -moz-linear-gradient(left, rgba(28,213,255,1) 0%, rgba(169,234,245,1) 100%);
@@ -124,6 +128,9 @@
 }
 
 .list-img {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
 	width: 250px;
 	height: 250px;
 	float: left;
@@ -150,12 +157,52 @@
 }
 
 .description {
-	font-family: 'Arvo', serif;
+	font-family: 'Droid Sans', sans-serif;
 	float: left;
 	display: block;
 	line-height: 1.2;
-	margin-top: 10px;
+	height: 115px;
+	color: #252525;
 }
+
+
+.title {
+	margin-bottom: 10px;
+}
+
+.title-descrip {
+	font-family: 'Arvo', serif;
+	font-size: 100%;
+	font-weight: bold;
+	padding-left: 2px;
+	color: #252525;
+}
+
+.word-description span, .title-span, .price {
+	font-family: 'Arvo', serif;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.word-descrption {
+	margin-bottom: 10px;
+}
+
+.word-description span {
+	text-decoration: underline;
+}
+
+.price {
+	margin-bottom: 12px;
+}
+
+.price span {
+	font-family: 'Arvo', serif;
+	font-size: 110%;
+	font-weight: bold;
+	color: #F00;
+}
+
 .describe {
 	font-family: 'Arvo', serif;
 	font-size: 120%;
@@ -177,6 +224,7 @@
 .overview-list li {
 	list-style-type: circle;
 	font-family: 'Arvo', serif;
+	color: #252525;
 }
 
 .seller-info {
@@ -361,3 +409,60 @@
   transition: all 10ms;
 }
 
+.cart {
+	text-align: right;
+}
+
+.cart a {
+	font-family: 'cute_strawberry2_by_uniquesRg';
+	font-size: 150%;
+	text-decoration: none;
+	color: #000;
+}
+
+#cart-wrapper {
+	display: none;
+	background: rgba(250,42,42,1);
+	background: -moz-linear-gradient(left, rgba(250,42,42,1) 0%, rgba(255,105,105,1) 100%);
+	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(250,42,42,1)), color-stop(100%, rgba(255,105,105,1)));
+	background: -webkit-linear-gradient(left, rgba(250,42,42,1) 0%, rgba(255,105,105,1) 100%);
+	background: -o-linear-gradient(left, rgba(250,42,42,1) 0%, rgba(255,105,105,1) 100%);
+	background: -ms-linear-gradient(left, rgba(250,42,42,1) 0%, rgba(255,105,105,1) 100%);
+	background: linear-gradient(to right, rgba(250,42,42,1) 0%, rgba(255,105,105,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fa2a2a', endColorstr='#ff6969', GradientType=1 );
+}
+
+.cart-instruct {
+	font-family: 'Arvo', serif;
+	font-size: 130%;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.cart-pic {
+	width: 110px;
+	height: 110px;
+	margin-bottom: 10px;
+	border-radius: 50%;
+}
+
+
+.cart-button {
+	display: block;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #000;
+}
+
+.cart-item-wrapper {
+	float: left;
+	margin-left: 20px;
+}
+
+.price {
+
+}
+
+.material span, .feedback span {
+	
+}

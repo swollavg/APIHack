@@ -8,50 +8,72 @@
 	<link rel="stylesheet" href="css/clearfix-borderbox.css">
 	<link rel="stylesheet" href="css/reset.css">
 	<link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/jQuery.succinct.min.js"></script>
+
 	
 </head>
 <body>
 
 	<div class="wrapper">
-		<div class="header-wrapper">
+		<div id="cart-wrapper" class="clearfix">
+			<h2 class="cart-instruct">Click on a link to visit the real Etsy Website!</h2>
+			<div class="cart-item-wrapper">
+				<a href="#" target="_blank"><img src="images/dress.jpg" class="cart-pic" alt="pic"></a>
+				<a href="#" target="_blank" class="cart-button">Visit Listing</a>
+			</div>
+			
+			<div class="cart-item-wrapper">
+				<a href="#" target="_blank"><img src="images/dress.jpg" class="cart-pic" alt="pic"></a>
+				<a href="#" target="_blank" class="cart-button">Visit Listing</a>
+			</div>
 
+			<div class="cart clear">
+				<a href="#">My Cart</a>
+			</div>
+		</div>
+
+		<div class="header-wrapper">
 			<img src="images/sartorial-logo.png" class="logo-pic" alt="pic of woman">
 			
 			<div class="about">
-				<a href="">About</a>
+				<a href="#">My Cart</a>
 			</div>
 		</div>
 
 		<div class="main-content-wrapper">
 			<div class="shirt clearfix">
-				<div class="image-wrapper">
-					<img src="images/dress.jpg" class="list-img" alt="picture">
-				</div>
+
+			<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
 
 				<div class="details clearfix">
-					
 					<div class="description-wrapper clearfix">
 						<h3 class="description-title">
 							Dresses
 						</h3>
-						<p class="description">
-							<span class="describe">Description: </span>
-							This new printed harem pant has elastic waist tie, features screen printed on one side of the leg which added unique style for these pant 
-
-							it's a harem, and it's adorable. this trendy pant spices up your look and so comfy. Wear it with flats or gladiators, and look fantastic.
-
-							Measurement 
-							...<a href="#" class="read-more">More</a>
+						<h4 class="price">
+							Price:
+							<span> </span>
+						</h4>
+						<h4 class="title truncate">
+							<span class="title-span">Title: </span>
+							<span class="title-descrip"></span> 
+						</h4>
+						<h4 class="word-description">
+							<span>Description: </span>
+						</h4>
+						
+						<p class="description truncate" id="dress-description">
 						</p>
 					</div>
 
 					<div class="detail-wrapper clearfix">
-						<div class="seller-info">
+						<div class="seller-info" id="dressSeller">
 							<h2>Seller: </h2>
-							<a href="#">thaitee</a>
+							<a href="#"></a>
 
 							<div class="favorite-wrapper">
 								<button class="favorite">Favorite
@@ -62,11 +84,15 @@
 
 						<div class="overview">
 							<h2>Overview</h2>
-							<ul class="overview-list">
-								<li>Handmade Item</li>
-								<li>Material: Cotton</li>
-								<li>Feedback: <span class="score"></span> reviews</li>
-								<li>Ships Worldwide from Thailand</li>
+							<ul class="overview-list hide">
+								<li class="handmade"></li>
+								<li class="material">
+									<span>Material:</span>
+								</li>
+								<li class="feedback">
+									<span class="score"></span> 
+								</li>
+								<li class="shipping">Ships <span class="shipto"></span> from <span class="shipfrom"></span></li>
 							</ul>
 						</div>
 				    </div>
@@ -273,7 +299,5 @@
 		</div> <!-- End main content wrapper -->
 	</div> <!-- End wrapper -->
 
-	
-	
 </body>
 </html>
