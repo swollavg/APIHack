@@ -1,7 +1,15 @@
 $(document).ready(function(){
+	// variables
+	var categoryDress = "Clothing/Women/Dress";
+	var categoryPants = {};
+	var categoryShoes = {};
+	var categoryJewelry = {};
+	var categoryBags = {};
+
+
 	$('#cart-wrapper').hide();
 	$('.add-cart').click(function(){
-		tester();
+		tester(categoryDress);
 		$('#cart').show();
 	});
 	// Shows the shopping cart
@@ -39,28 +47,24 @@ var replaceHtmlEntites = (function() {
 })();
 
 
-function tester() {
-	var categoryDress = "Clothing/Women/Dress";
-	var categoryPants = {};
-	var categoryShoes = {};
-	var categoryJewelry = {};
-	var categoryBags = {};
+function tester(filter) {
 	$.ajax({
 		url: "https://openapi.etsy.com/v2/listings/active.js?api_key=6z1xqkz8tg0znk9ckgkf9p5p",
 		dataType: "jsonp",
 		data: {
-			"category": categoryDress,
+			"category": filter,
 			"limit": "7",
-			"includes": "Images" + "\,User" + "\,ShippingInfo",   
+			"includes": "Images" + "\,User" + "\,ShippingInfo" + "\,Shop/About",   
+
 		},
 		type: "GET",
 		success: function(data){
+			var base = $('.add-cart');
 			// shows hidden overview list
 			$('.overview-list').removeClass("hide");
 
-			// sets the sellers name
-			$('#dressSeller a').text(data.results[1].User.login_name);
-			console.log(data.results[1]);
+			//sets user name and shop link
+			setShopAndName(data);
 
 			// sets the items picture
 			$('#shirt-pic').css("background-image", 'url(' + data.results[1].Images[0].url_570xN + ")");
@@ -72,7 +76,8 @@ function tester() {
 			$('#dress-description').append(editString);
 
 			//sets title
-			$('.title-descrip').text(data.results[1].title)
+			base.siblings('.description-wrapper').children('.title').children('.title-descrip').text(data.results[1].title);
+		
 
 			//Jquery plugin self running function that truncates
 			$(function(){
@@ -103,11 +108,14 @@ function tester() {
 		   shippingIterate(data);
 
 		   // sets handmade information
-		   handmade(data);
+		   handmade(data);                  
 
 		   //sets feedback score
 		   var feedbackScore = data.results[1].User.feedback_info.count;
-			$('.score').html("Feedback: " + "<a href='#'>" + feedbackScore + " reviews" + "</a>");
+		   var feedbackLink = data.results[1].Shop.shop_name;
+			$('.score').html("Feedback: " + "<a href='" + "https://www.etsy.com/shop/" + feedbackLink + "/reviews?ref=shop_info" + "'" + "target=_blank" + ">"  + feedbackScore + " reviews" + "</a>");
+
+			
 		
 		},
 		error: function(jqXHR, error, errorThrown){
@@ -157,3 +165,14 @@ function handmade(data){
 		$('.handmade').hide();
 	}
 }
+
+function setShopAndName(data) {
+	// sets the sellers name
+	$('#dressSeller a').text(data.results[1].User.login_name);
+	console.log(data.results[1]);
+
+	//sets link to user shop
+	var shopLink = data.results[1].Shop.url;
+	$('#dressSeller a').attr('href', shopLink);
+}
+
