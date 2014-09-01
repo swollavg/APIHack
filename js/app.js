@@ -5,11 +5,12 @@ $(document).ready(function(){
 	var categoryShoes = {};
 	var categoryJewelry = {};
 	var categoryBags = {};
+	var base = $('#dressBase');
 
 
 	$('#cart-wrapper').hide();
 	$('.add-cart').click(function(){
-		tester(categoryDress);
+		tester(categoryDress, base);
 		$('#cart').show();
 	});
 	// Shows the shopping cart
@@ -47,7 +48,7 @@ var replaceHtmlEntites = (function() {
 })();
 
 
-function tester(filter) {
+function tester(filter, buttonBase) {
 	$.ajax({
 		url: "https://openapi.etsy.com/v2/listings/active.js?api_key=6z1xqkz8tg0znk9ckgkf9p5p",
 		dataType: "jsonp",
@@ -59,24 +60,24 @@ function tester(filter) {
 		},
 		type: "GET",
 		success: function(data){
-			var base = $('.add-cart');
+
 			// shows hidden overview list
 			$('.overview-list').removeClass("hide");
 
 			//sets user name and shop link
-			setShopAndName(data);
+			setShopAndName(data, buttonBase);
 
 			// sets the items picture
-			$('#shirt-pic').css("background-image", 'url(' + data.results[1].Images[0].url_570xN + ")");
-			$('#shirt-pic').attr('href', data.results[1].url);
+			buttonBase.parent('.details').prev().css("background-image", 'url(' + data.results[1].Images[0].url_570xN + ")");
+			buttonBase.parent('.details').prev().attr('href', data.results[1].url);
 			
 			// sets the description text and replace html special characters
 			var originalString = data.results[1].description;
 			var editString = replaceHtmlEntites(originalString);
-			$('#dress-description').append(editString);
+			buttonBase.parent('.details').find('.description').append(editString);
 
 			//sets title
-			base.siblings('.description-wrapper').children('.title').children('.title-descrip').text(data.results[1].title);
+			buttonBase.parent('.details').find('.title').children('.title-descrip').text(data.results[1].title);
 		
 
 			//Jquery plugin self running function that truncates
@@ -89,34 +90,34 @@ function tester(filter) {
 				});
 				
 			});
-			// sets price
-			$('.price span').append(data.results[1].price);
 
-			// iterates over materials
-			var arr = data.results[1].materials;
+			// sets price
+			buttonBase.parent('.details').find('.price').children('span').append(data.results[1].price);
+			
+			// Sets an array for the materails
+			var materialArray = data.results[1].materials;
 
 			// removed comma from long array list
-		    $.each(arr, function(index, value){
-		    	if(index == arr.length - 1){
-		    		$('.material').append(" " + value + '.');
+		    $.each(materialArray, function(index, value){
+		    	if(index == materialArray.length - 1){
+		    		buttonBase.prev().find('.material').children('span').append(" " + value + '.');
+		    		
 		    	}
-		    	else if(index < arr.length - 1)
-				$('.material').append(" " + value + ',');
+		    	else if(index < materialArray.length - 1)
+					buttonBase.prev().find('.material').children('span').append(" " + value + ',');
 			});
 
 		    // sets shipping info
-		   shippingIterate(data);
+		   shippingIterate(data, buttonBase);
 
 		   // sets handmade information
-		   handmade(data);                  
+		   handmade(data, buttonBase);                  
 
 		   //sets feedback score
 		   var feedbackScore = data.results[1].User.feedback_info.count;
 		   var feedbackLink = data.results[1].Shop.shop_name;
-			$('.score').html("Feedback: " + "<a href='" + "https://www.etsy.com/shop/" + feedbackLink + "/reviews?ref=shop_info" + "'" + "target=_blank" + ">"  + feedbackScore + " reviews" + "</a>");
+			buttonBase.prev().find('.score').html("Feedback: " + "<a href='" + "https://www.etsy.com/shop/" + feedbackLink + "/reviews?ref=shop_info" + "'" + "target=_blank" + ">"  + feedbackScore + " reviews" + "</a>");
 
-			
-		
 		},
 		error: function(jqXHR, error, errorThrown){
 			alert(error);
@@ -124,55 +125,57 @@ function tester(filter) {
 	});
 }
 
-function shippingIterate(data){
-//iterates over each ship array and then each object within each array looking for keywords.
+//iterates over each ship array and then each object within
+// each array looking for keywords.
+function shippingIterate(data, buttonBase){
 var shippingArray = data.results[1].ShippingInfo;
 
 	$.each(shippingArray, function(index, value){
 		$.each(value, function(key, value){
-
-			$('.shipfrom').text(data.results[1].ShippingInfo[index].origin_country_name);
-
+			
 			if(value == "Everywhere Else"){
-				$('.shipto').text('worldwide');
+				buttonBase.prev().find('.shipping').children('.shipto').text('worldwide');
 				return false;
 			}
 
 			else if(value != "Everywhere Else"){
-				$('shipto').text(data.results[1].ShippingInfo[index].destination_country_name);
-			}							
+				buttonBase.prev().find('.shipping').children('.shipto').text("to " + data.results[1].ShippingInfo[index].destination_country_name);
+			}
+
+			buttonBase.prev().find('.shipping').children('.shipfrom').text(data.results[1].ShippingInfo[index].origin_country_name);							
 		});
 	});
 }
 
 
-function handmade(data){
+function handmade(data, buttonBase){
 	var handmadeInfo = data.results[1].who_made;
 	var supplyInfo = data.results[1].is_supply;
+
 	if(handmadeInfo == "i_did" || handmadeInfo == "collective") {
-			$('.handmade').text('Handmade');
+		buttonBase.prev().find('.handmade').text('Handmade');
 
-			if(supplyInfo == "true"){
-				$('.handmade').append(" " + "supply");
-			}
+		if(supplyInfo == "true"){
+			buttonBase.prev().find('.handmade').append(" " + "supply");
+		}
 
-			else if(supplyInfo == "false"){
-				$('.handmade').append(" " + "item");
-			}
-		} 
+		else if(supplyInfo == "false"){
+			buttonBase.prev().find('.handmade').append(" " + "item");
+		}
+	} 
 
 	else {
-		$('.handmade').hide();
+		buttonBase.prev().find('.handmade').hide();
 	}
 }
 
-function setShopAndName(data) {
+function setShopAndName(data, buttonBase) {
 	// sets the sellers name
-	$('#dressSeller a').text(data.results[1].User.login_name);
+	buttonBase.prev().find('.seller-info').children('a').text(data.results[1].User.login_name);
 	console.log(data.results[1]);
 
 	//sets link to user shop
 	var shopLink = data.results[1].Shop.url;
-	$('#dressSeller a').attr('href', shopLink);
+	buttonBase.prev().find('.seller-info').children('a').attr('href', shopLink);
 }
 
