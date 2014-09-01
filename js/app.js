@@ -1,16 +1,16 @@
 $(document).ready(function(){
 	// variables
 	var categoryDress = "Clothing/Women/Dress";
-	var categoryPants = {};
-	var categoryShoes = {};
-	var categoryJewelry = {};
+	var categoryShirt = "Clothing/Women/Shirt";
+	var categoryShoes = "Clothing/Shoes/Women";
+	var categoryJewelry = "Jewelry";
 	var categoryBags = {};
 	var base = $('#dressBase');
 
 
 	$('#cart-wrapper').hide();
 	$('.add-cart').click(function(){
-		tester(categoryDress, base);
+		tester(categoryJewelry, base);
 		$('#cart').show();
 	});
 	// Shows the shopping cart
@@ -138,12 +138,15 @@ var shippingArray = data.results[1].ShippingInfo;
 				return false;
 			}
 
-			else if(value != "Everywhere Else"){
-				buttonBase.prev().find('.shipping').children('.shipto').text("to " + data.results[1].ShippingInfo[index].destination_country_name);
+			else if(key == "destination_country_name" && value != "Everywhere Else"){
+				if(shippingArray.length <= 8){
+					buttonBase.prev().find('.shipping').children('.shipto').append("to " + data.results[1].ShippingInfo[index].destination_country_name);
+				}
 			}
 
 			buttonBase.prev().find('.shipping').children('.shipfrom').text(data.results[1].ShippingInfo[index].origin_country_name);							
 		});
+		return false
 	});
 }
 
