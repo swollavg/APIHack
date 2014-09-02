@@ -1,45 +1,111 @@
 $(document).ready(function(){
-	// variables
+	// Category filter variables
 	var categoryDress = "Clothing/Women/Dress";
 	var categoryPants = "Clothing/Women/Pants";
 	var categoryShoes = "Clothing/Shoes/Women";
 	var categoryJewelry = "Jewelry";
 	var categoryBag = "Bags and Purses";
 
+	// The "base" buttons for each category.
 	var dressBase = $('#dress-button');
 	var pantsBase = $('#pants-button');
 	var shoesBase = $('#shoes-button');
 	var jewelryBase = $('#jewelry-button');
 	var bagBase = $('#bag-button');
+	
 
 	
 	$('#cart-wrapper').hide();
 
 	// Processes Dress data
 	$(dressBase).click(function(){
+
+		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		alert(randomOff);
-		processEtsyData(categoryDress, dressBase, randomOff);
+		var randomNumber = Math.floor((Math.random() * 15) + 1);
+
+		// resets the main fields when a new listing is being generated.
+		dressBase.prev().prev().find('.material').children('span').text('');
+		dressBase.prev().prev().find('.overview-list').hide();
+		dressBase.parent('.details').find('.description').text('');
+		dressBase.parent('.details').find('.title').children('.title-descrip').text('');
+		dressBase.prev().prev().find('.seller-info').children('a').text('');
+		dressBase.parent('.details').find('.price').children('span').text('');
+
+		// main AAX request function
+		processEtsyData(categoryDress, dressBase, randomOff, randomNumber);
 	});
 
 	// Processes Pants data
 	$(pantsBase).click(function(){
-		processEtsyData(categoryPants, pantsBase, randomOff);
+		//generate random number and offset with each click event
+		var randomOff = Math.floor((Math.random() * 500) + 1);
+		var randomNumber = Math.floor((Math.random() * 15) + 1);
+
+		// resets the main fields when a new listing is being generated.
+		pantsBase.prev().prev().find('.material').children('span').text('');
+		pantsBase.prev().prev().find('.overview-list').hide();
+		pantsBase.parent('.details').find('.description').text('');
+		pantsBase.parent('.details').find('.title').children('.title-descrip').text('');
+		pantsBase.prev().prev().find('.seller-info').children('a').text('');
+		pantsBase.parent('.details').find('.price').children('span').text('');
+		
+		// main AAX request function
+		processEtsyData(categoryPants, pantsBase, randomOff, randomNumber);
 	});
 
 	// Processes Shoes data
 	$(shoesBase).click(function(){
-		processEtsyData(categoryShoes, shoesBase, randomOff);
+		//generate random number and offset with each click event
+		var randomOff = Math.floor((Math.random() * 500) + 1);
+		var randomNumber = Math.floor((Math.random() * 15) + 1);
+
+		// resets the main fields when a new listing is being generated.
+		shoesBase.prev().prev().find('.material').children('span').text('');
+		shoesBase.prev().prev().find('.overview-list').hide();
+		shoesBase.parent('.details').find('.description').text('');
+		shoesBase.parent('.details').find('.title').children('.title-descrip').text('');
+		shoesBase.prev().prev().find('.seller-info').children('a').text('');
+		shoesBase.parent('.details').find('.price').children('span').text('');
+
+		// main AAX request function
+		processEtsyData(categoryShoes, shoesBase, randomOff, randomNumber);
 	});
 
 	// Processes Jewelry data
 	$(jewelryBase).click(function(){
-		processEtsyData(categoryJewelry, jewelryBase, randomOff);
+		//generate random number and offset with each click event
+		var randomOff = Math.floor((Math.random() * 500) + 1);
+		var randomNumber = Math.floor((Math.random() * 15) + 1);
+
+		// resets the main fields when a new listing is being generated.
+		jewelryBase.prev().prev().find('.material').children('span').text('');
+		jewelryBase.prev().prev().find('.overview-list').hide();
+		jewelryBase.parent('.details').find('.description').text('');
+		jewelryBase.parent('.details').find('.title').children('.title-descrip').text('');
+		jewelryBase.prev().prev().find('.seller-info').children('a').text('');
+		jewelryBase.parent('.details').find('.price').children('span').text('');
+
+		// main AAX request function
+		processEtsyData(categoryJewelry, jewelryBase, randomOff, randomNumber);
 	});
 
 	// Processes bag data
 	$(bagBase).click(function(){
-		processEtsyData(categoryBag, bagBase, randomOff);
+		//generate random number and offset with each click event
+		var randomOff = Math.floor((Math.random() * 500) + 1);
+		var randomNumber = Math.floor((Math.random() * 15) + 1);
+
+		// resets the main fields when a new listing is being generated.
+		bagBase.prev().prev().find('.material').children('span').text('');
+		bagBase.prev().prev().find('.overview-list').hide();
+		bagBase.parent('.details').find('.description').text('');
+		bagBase.parent('.details').find('.title').children('.title-descrip').text('');
+		bagBase.prev().prev().find('.seller-info').children('a').text('');
+		bagBase.parent('.details').find('.price').children('span').text('');
+
+		// main AAX request function
+		processEtsyData(categoryBag, bagBase, randomOff, randomNumber);
 	});
 	
 	// Shows the shopping cart
@@ -49,6 +115,7 @@ $(document).ready(function(){
 			$('#cart-wrapper').slideDown();
 		});
 	});
+
 	//hides shopping cart and re-displays logo
 	$('.cart a').click(function(){
 		$('#cart-wrapper').slideUp(function(){
@@ -77,7 +144,7 @@ var replaceHtmlEntites = (function() {
 })();
 
 
-function processEtsyData(filter, buttonBase, off) {
+function processEtsyData(filter, buttonBase, off, randomNumber) {
 	$.ajax({
 		url: "https://openapi.etsy.com/v2/listings/active.js?api_key=6z1xqkz8tg0znk9ckgkf9p5p",
 		dataType: "jsonp",
@@ -89,10 +156,22 @@ function processEtsyData(filter, buttonBase, off) {
 
 		},
 		type: "GET",
+		beforeSend: function(){
+			buttonBase.parent('.details').prev().css
+			({
+				"background-image": "url('images/ajax-loader.gif')",
+			});
+		},
 		success: function(data){
+			console.log(data.results[randomNumber]);
 
-			var randomNumber = Math.floor((Math.random() * 15) + 1);
-		
+			// shows fields for new randomly generated listing
+			buttonBase.prev().prev().find('.overview-list').show();
+			buttonBase.parent('.details').find('.description').show();
+			buttonBase.parent('.details').find('.title').children('.title-descrip').show();
+			buttonBase.prev().prev().find('.seller-info').children('a').show();
+			buttonBase.parent('.details').find('.price').children('span').show();
+
 			// shows hidden overview list
 			$('.overview-list').removeClass("hide");
 
@@ -106,7 +185,7 @@ function processEtsyData(filter, buttonBase, off) {
 			// sets the description text and replace html special characters
 			var originalString = data.results[randomNumber].description;
 			var editString = replaceHtmlEntites(originalString);
-			buttonBase.parent('.details').find('.description').append(editString);
+			buttonBase.parent('.details').find('.description').text(editString);
 
 			//sets title
 			buttonBase.parent('.details').find('.title').children('.title-descrip').text(data.results[randomNumber].title);
@@ -161,9 +240,10 @@ function processEtsyData(filter, buttonBase, off) {
 // each array looking for keywords.
 function shippingIterate(data, buttonBase, randomNumber){
 var shippingArray = data.results[randomNumber].ShippingInfo;
+var notFound = true;
 
 	$.each(shippingArray, function(index, value){
-		var notFound = true;
+		
 		$.each(value, function(key, value){
 			
 			if(value == "Everywhere Else"){
