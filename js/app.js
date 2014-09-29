@@ -19,10 +19,11 @@ $(document).ready(function(){
 
 	// Processes Dress data
 	$(dressBase).click(function(){
+		
 
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		var randomNumber = Math.floor((Math.random() * 15) + 1);
+		var randomNumber = Math.floor((Math.random() * 6) + 1);
 
 		// resets the main fields when a new listing is being generated.
 		dressBase.prev().prev().find('.material').children('span').text('');
@@ -31,6 +32,7 @@ $(document).ready(function(){
 		dressBase.parent('.details').find('.title').children('.title-descrip').text('');
 		dressBase.prev().prev().find('.seller-info').children('a').text('');
 		dressBase.parent('.details').find('.price').children('span').text('');
+		
 
 		// main AAX request function
 		processEtsyData(categoryDress, dressBase, randomOff, randomNumber);
@@ -40,7 +42,7 @@ $(document).ready(function(){
 	$(pantsBase).click(function(){
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		var randomNumber = Math.floor((Math.random() * 15) + 1);
+		var randomNumber = Math.floor((Math.random() * 6) + 1);
 
 		// resets the main fields when a new listing is being generated.
 		pantsBase.prev().prev().find('.material').children('span').text('');
@@ -58,7 +60,7 @@ $(document).ready(function(){
 	$(shoesBase).click(function(){
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		var randomNumber = Math.floor((Math.random() * 15) + 1);
+		var randomNumber = Math.floor((Math.random() * 6) + 1);
 
 		// resets the main fields when a new listing is being generated.
 		shoesBase.prev().prev().find('.material').children('span').text('');
@@ -76,7 +78,7 @@ $(document).ready(function(){
 	$(jewelryBase).click(function(){
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		var randomNumber = Math.floor((Math.random() * 15) + 1);
+		var randomNumber = Math.floor((Math.random() * 6) + 1);
 
 		// resets the main fields when a new listing is being generated.
 		jewelryBase.prev().prev().find('.material').children('span').text('');
@@ -94,7 +96,7 @@ $(document).ready(function(){
 	$(bagBase).click(function(){
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
-		var randomNumber = Math.floor((Math.random() * 15) + 1);
+		var randomNumber = Math.floor((Math.random() * 6) + 1);
 
 		// resets the main fields when a new listing is being generated.
 		bagBase.prev().prev().find('.material').children('span').text('');
@@ -150,20 +152,22 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 		dataType: "jsonp",
 		data: {
 			"category": filter,
-			"limit": "15",
+			"limit": "6",
 			"offset": off,
 			"includes": "Images" + "\,User" + "\,ShippingInfo" + "\,Shop/About",   
 
 		},
 		type: "GET",
 		beforeSend: function(){
-			buttonBase.parent('.details').prev().css
-			({
-				"background-image": "url('images/ajax-loader.gif')",
-			});
+			//removes the listing img after each randomize
+			buttonBase.parent('.details').prev().css('background-image', '');
+			// Adds loading Gif
+			buttonBase.parent('.details').prev().append('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
 		},
 		success: function(data){
 			console.log(data.results[randomNumber]);
+			// Removes loading GIF once the image fully loads
+			buttonBase.parent('.details').prev().text('');
 
 			// shows fields for new randomly generated listing
 			buttonBase.prev().prev().find('.overview-list').show();

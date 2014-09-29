@@ -162,7 +162,7 @@
 	float: left;
 	display: block;
 	line-height: 1.2;
-	height: 115px;
+	/*height: 115px;*/
 	color: #252525;
 }
 
@@ -468,4 +468,17 @@
 
 .material span, .feedback span {
 	
+}
+
+.img-wrap {
+	position: relative;
+	width: 250px;
+	height: 250px;
+	float: left;
+}
+
+.loader {
+	  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
