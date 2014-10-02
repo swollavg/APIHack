@@ -22,7 +22,7 @@
 	visibility: hidden;
 }
 
-.shirt {
+.shirt, .hidden-shirt {
 	background: rgba(28,213,255,1);
 	background: -moz-linear-gradient(left, rgba(28,213,255,1) 0%, rgba(169,234,245,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(28,213,255,1)), color-stop(100%, rgba(169,234,245,1)));
@@ -33,7 +33,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1cd5ff', endColorstr='#a9eaf5', GradientType=1 )
 }
 
-.pants {
+.pants, .hidden-pants {
 	background: rgba(255,120,197,1);
 	background: -moz-linear-gradient(left, rgba(255,120,197,1) 0%, rgba(252,194,208,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,120,197,1)), color-stop(100%, rgba(252,194,208,1)));
@@ -44,7 +44,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff78c5', endColorstr='#fcc2d0', GradientType=1 );
 }
 
-.shoes {
+.shoes, .hidden-shoes {
 	background: rgba(255,255,0,1);
 	background: -moz-linear-gradient(left, rgba(255,255,0,1) 0%, rgba(255,237,97,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,0,1)), color-stop(100%, rgba(255,237,97,1)));
@@ -55,7 +55,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff00', endColorstr='#ffed61', GradientType=1 );
 }
 
-.jewelry {
+.jewelry, .hidden-jewelry {
 	background: rgba(79,240,39,1);
 	background: -moz-linear-gradient(left, rgba(79,240,39,1) 0%, rgba(155,245,133,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(79,240,39,1)), color-stop(100%, rgba(155,245,133,1)));
@@ -66,7 +66,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4ff027', endColorstr='#9bf585', GradientType=1 );
 }
 
-.bags {
+.bags, .hidden-bags {
 	background: rgba(242,151,39,1);
 	background: -moz-linear-gradient(left, rgba(242,151,39,1) 0%, rgba(255,174,76,1) 100%);
 	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242,151,39,1)), color-stop(100%, rgba(255,174,76,1)));
@@ -75,6 +75,10 @@
 	background: -ms-linear-gradient(left, rgba(242,151,39,1) 0%, rgba(255,174,76,1) 100%);
 	background: linear-gradient(to right, rgba(242,151,39,1) 0%, rgba(255,174,76,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f29727', endColorstr='#ffae4c', GradientType=1 );
+}
+
+.shirt, .pants, .shoes, .jewelry, .bags {
+	display: none;
 }
 
 .header-main {
@@ -155,6 +159,12 @@
 	font-family: 'cute_strawberry2_by_uniquesRg';
 	font-size: 210%;
 	text-align: center;
+	display: inline-block;
+}
+
+.hidden-down-arrow {
+	width: 40px;
+	height: 20px;
 }
 
 .description {
@@ -162,7 +172,7 @@
 	float: left;
 	display: block;
 	line-height: 1.2;
-	/*height: 115px;*/
+	height: 120px;
 	color: #252525;
 }
 
@@ -482,3 +492,13 @@
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
 }
+
+
+.hidden-down-button {
+	color: #000;
+	text-decoration: none;
+	display: block;
+	margin: 0 auto;
+	width: 200px;
+}
+

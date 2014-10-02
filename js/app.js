@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	// Category filter variables
 	var categoryDress = "Clothing/Women/Dress";
 	var categoryPants = "Clothing/Women/Pants";
@@ -17,10 +18,40 @@ $(document).ready(function(){
 	
 	$('#cart-wrapper').hide();
 
+	// Dropdown for shirts
+	$('#shirt-drop').click(function(event){
+		event.preventDefault();
+		$('.shirt').slideToggle();
+	});
+
+	//Dropdown for pants
+	$('#pants-drop').click(function(event){
+		event.preventDefault();
+		$('.pants').slideToggle();
+	});
+
+	//Dropdown for shoes
+	$('#shoes-drop').click(function(event){
+		event.preventDefault();
+		$('.shoes').slideToggle();
+	});
+
+	//Dropdown for shoes
+	$('#jewelry-drop').click(function(event){
+		event.preventDefault();
+		$('.jewelry').slideToggle();
+	});
+
+	//Dropdown for bags
+	$('#bags-drop').click(function(event){
+		event.preventDefault();
+		$('.bags').slideToggle();
+	});
+
+	
 	// Processes Dress data
 	$(dressBase).click(function(){
 		
-
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
 		var randomNumber = Math.floor((Math.random() * 6) + 1);
@@ -152,9 +183,9 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 		dataType: "jsonp",
 		data: {
 			"category": filter,
-			"limit": "6",
+			"limit": "7",
 			"offset": off,
-			"includes": "Images" + "\,User" + "\,ShippingInfo" + "\,Shop/About",   
+			"includes": "User" + "\,Images" + "\,ShippingInfo" + "\,Shop/About"   
 
 		},
 		type: "GET",
@@ -162,10 +193,10 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			//removes the listing img after each randomize
 			buttonBase.parent('.details').prev().css('background-image', '');
 			// Adds loading Gif
-			buttonBase.parent('.details').prev().append('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
+			buttonBase.parent('.details').prev().html('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
 		},
 		success: function(data){
-			console.log(data.results[randomNumber]);
+			
 			// Removes loading GIF once the image fully loads
 			buttonBase.parent('.details').prev().text('');
 
@@ -177,15 +208,15 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			buttonBase.parent('.details').find('.price').children('span').show();
 
 			// shows hidden overview list
-			$('.overview-list').removeClass("hide");
-
-			//sets user name and shop link
-			setShopAndName(data, buttonBase, randomNumber);
-
+			buttonBase.prev().prev().find('.overview-list').removeClass("hide");
+			
 			// sets the items picture
 			buttonBase.parent('.details').prev().css("background-image", 'url(' + data.results[randomNumber].Images[0].url_570xN + ")");
 			buttonBase.parent('.details').prev().attr('href', data.results[randomNumber].url);
 			
+			//sets user name and shop link
+			setShopAndName(data, buttonBase, randomNumber);
+
 			// sets the description text and replace html special characters
 			var originalString = data.results[randomNumber].description;
 			var editString = replaceHtmlEntites(originalString);
@@ -198,7 +229,7 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			//Jquery plugin self running function that truncates
 			$(function(){
 				$('.description').succinct({
-					size: 450
+					size: 400
 				});
 				$('.title-descrip').succinct({
 					size: 55
@@ -209,18 +240,8 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			// sets price
 			buttonBase.parent('.details').find('.price').children('span').text(data.results[randomNumber].price);
 			
-			// Sets an array for the materails
-			var materialArray = data.results[randomNumber].materials;
-
-			// removed comma from long array list
-		    $.each(materialArray, function(index, value){
-		    	if(index == materialArray.length - 1){
-		    		buttonBase.prev().prev().find('.material').children('span').append(" " + value + '.');
-		    		
-		    	}
-		    	else if(index < materialArray.length - 1)
-					buttonBase.prev().prev().find('.material').children('span').append(" " + value + ',');
-			});
+			// sets material info
+			setMaterial(data, buttonBase, randomNumber);
 
 		    // sets shipping info
 		   shippingIterate(data, buttonBase, randomNumber);
@@ -301,5 +322,34 @@ function setShopAndName(data, buttonBase, randomNumber) {
 	//sets link to user shop
 	var shopLink = data.results[randomNumber].Shop.url;
 	buttonBase.prev().prev().find('.seller-info').children('a').attr('href', shopLink);
+}
+
+function setMaterial(data, buttonBase, randomNumber) {
+
+	//shows material list item after it has been removed if array is empty.
+	buttonBase.prev().prev().find('.material').show();
+
+	// Sets an array for the materails
+	var materialArray = data.results[randomNumber].materials;
+
+	//checks if array is empty.
+	if(materialArray.length == 0){
+    	buttonBase.prev().prev().find('.material').hide();
+    }
+
+    else {
+
+		// sets materials info and adds period to last item.
+	    $.each(materialArray, function(index, value){
+
+	    	if(index == materialArray.length - 1){
+	    		buttonBase.prev().prev().find('.material').children('span').append(" " + value + '.');
+	    		
+	    	}
+	    	else if(index < materialArray.length - 1)
+				buttonBase.prev().prev().find('.material').children('span').append(" " + value + ',');
+			
+		});
+	}
 }
 
