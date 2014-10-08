@@ -1,3 +1,6 @@
+//counter used for the images array. needs to be in global space
+var current = 0;
+
 $(document).ready(function(){
 
 	// Category filter variables
@@ -19,6 +22,7 @@ $(document).ready(function(){
 	var firstTimeJewelry = true;
 	var firstTimeBags = true;
 	
+	var current = 0;
 
 	
 	$('#cart-wrapper').hide();
@@ -106,6 +110,9 @@ $(document).ready(function(){
 	
 	// Processes Dress data
 	$(dressBase).click(function(){
+
+		//removes event handler that was attached in ajax call
+		$('.next').off();
 		
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
@@ -235,6 +242,11 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			buttonBase.parent('.details').prev().html('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
 		},
 		success: function(data){
+
+			
+
+			// array of images
+			var picArray = data.results[randomNumber].Images;
 			
 			// Removes loading GIF once the image fully loads
 			buttonBase.parent('.details').prev().text('');
@@ -249,10 +261,18 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			// shows hidden overview list
 			buttonBase.prev().prev().find('.overview-list').removeClass("hide");
 			
-			// sets the items picture
+			// sets the items first picture 
 			buttonBase.parent('.details').prev().css("background-image", 'url(' + data.results[randomNumber].Images[0].url_570xN + ")");
 			buttonBase.parent('.details').prev().attr('href', data.results[randomNumber].url);
-			
+
+			console.log(data.results[randomNumber].Images);
+
+
+			$('.next').on('click', function(event){
+				event.preventDefault();
+				next(data, buttonBase, randomNumber, picArray);
+			});
+
 			//sets user name and shop link
 			setShopAndName(data, buttonBase, randomNumber);
 
@@ -375,7 +395,7 @@ function handmade(data, buttonBase, randomNumber){
 function setShopAndName(data, buttonBase, randomNumber) {
 	// sets the sellers name
 	buttonBase.prev().prev().find('.seller-info').children('a').text(data.results[randomNumber].User.login_name);
-	console.log(data.results);
+	
 
 	//sets link to user shop
 	var shopLink = data.results[randomNumber].Shop.url;
@@ -411,7 +431,22 @@ function setMaterial(data, buttonBase, randomNumber) {
 	}
 }
 
-function next(data, buttonBase, randomNumber, array) {
+
+function next(data, buttonBase, randomNumber, picArray) {
+	// when next is clicked, cycles through the images array.
+	current++;
+	console.log(current);
+	
+	var arrayLength = picArray.length;
+
+	if(current >= arrayLength){
+		current = 0;
+	}
+	
+	
+	buttonBase.parent('.details').prev().css("background-image", 'url(' + picArray[current].url_570xN + ")");
+	buttonBase.parent('.details').prev().attr('href', data.results[randomNumber].url);
+    
 
 }
 
