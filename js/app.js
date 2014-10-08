@@ -13,6 +13,11 @@ $(document).ready(function(){
 	var shoesBase = $('#shoes-button');
 	var jewelryBase = $('#jewelry-button');
 	var bagBase = $('#bag-button');
+	var firstTimeShirt = true;
+	var firstTimePants = true;
+	var firstTimeShoes = true;
+	var firstTimeJewelry = true;
+	var firstTimeBags = true;
 	
 
 	
@@ -21,31 +26,81 @@ $(document).ready(function(){
 	// Dropdown for shirts
 	$('#shirt-drop').click(function(event){
 		event.preventDefault();
-		$('.shirt').slideToggle();
+		$('.shirt').slideToggle(function(){
+
+			// on the first toggle down. The AJAX function is run and info is generated.
+			if(firstTimeShirt == true) {
+				var randomOff = Math.floor((Math.random() * 500) + 1);
+				var randomNumber = Math.floor((Math.random() * 6) + 1);
+
+				processEtsyData(categoryDress, dressBase, randomOff, randomNumber);
+				firstTimeShirt = false;
+			}
+		});
 	});
 
 	//Dropdown for pants
 	$('#pants-drop').click(function(event){
 		event.preventDefault();
-		$('.pants').slideToggle();
+		$('.pants').slideToggle(function(){
+
+			// on the first toggle down. The AJAX function is run and info is generated.
+			if(firstTimePants == true) {
+				var randomOff = Math.floor((Math.random() * 500) + 1);
+				var randomNumber = Math.floor((Math.random() * 6) + 1);
+
+				processEtsyData(categoryPants, pantsBase, randomOff, randomNumber);
+				firstTimePants = false;
+			}
+		});
 	});
 
 	//Dropdown for shoes
 	$('#shoes-drop').click(function(event){
 		event.preventDefault();
-		$('.shoes').slideToggle();
+		$('.shoes').slideToggle(function(){
+
+			// on the first toggle down. The AJAX function is run and info is generated.
+			if(firstTimeShoes == true) {
+				var randomOff = Math.floor((Math.random() * 500) + 1);
+				var randomNumber = Math.floor((Math.random() * 6) + 1);
+
+				processEtsyData(categoryShoes, shoesBase, randomOff, randomNumber);
+				firstTimeShoes = false;
+			}
+		});
 	});
 
-	//Dropdown for shoes
+	//Dropdown for jewelry
 	$('#jewelry-drop').click(function(event){
 		event.preventDefault();
-		$('.jewelry').slideToggle();
+		$('.jewelry').slideToggle(function(){
+
+			// on the first toggle down. The AJAX function is run and info is generated.
+			if(firstTimeJewelry == true) {
+				var randomOff = Math.floor((Math.random() * 500) + 1);
+				var randomNumber = Math.floor((Math.random() * 6) + 1);
+
+				processEtsyData(categoryJewelry, jewelryBase, randomOff, randomNumber);
+				firstTimeJewelry = false;
+			}
+		});
 	});
 
 	//Dropdown for bags
 	$('#bags-drop').click(function(event){
 		event.preventDefault();
-		$('.bags').slideToggle();
+		$('.bags').slideToggle(function(){
+
+			// on the first toggle down. The AJAX function is run and info is generated.
+			if(firstTimeBags == true) {
+				var randomOff = Math.floor((Math.random() * 500) + 1);
+				var randomNumber = Math.floor((Math.random() * 6) + 1);
+
+				processEtsyData(categoryBag, bagBase, randomOff, randomNumber);
+				firstTimeBags = false;
+			}
+		});
 	});
 
 	
@@ -158,23 +213,7 @@ $(document).ready(function(){
 	});
 });
 
-// Stackoverflow function that replaces html special characters with their regex
-//http://stackoverflow.com/questions/1229518/javascript-regex-replace-html-chars
-var replaceHtmlEntites = (function() {
-  var translate_re = /&(nbsp|amp|quot|lt|gt);/g;
-  var translate = {
-    "nbsp": " ", 
-    "amp" : "&", 
-    "quot": "\"",
-    "lt"  : "<", 
-    "gt"  : ">"
-  };
-  return function(s) {
-    return ( s.replace(translate_re, function(match, entity) { 
-      return translate[entity]; 
-    }) );
-  }
-})();
+
 
 
 function processEtsyData(filter, buttonBase, off, randomNumber) {
@@ -217,6 +256,25 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			//sets user name and shop link
 			setShopAndName(data, buttonBase, randomNumber);
 
+			// Stackoverflow function that replaces html special characters with their regex
+			//http://stackoverflow.com/questions/1229518/javascript-regex-replace-html-chars
+			var replaceHtmlEntites = (function() {
+			  var translate_re = /&(nbsp|amp|#39|quot|lt|gt);/g;
+			  var translate = {
+			    "nbsp": " ", 
+			    "amp" : "&", 
+			    "#39" : "\'",
+			    "quot": "\"",
+			    "lt"  : "<", 
+			    "gt"  : ">"
+			  };
+			  return function(s) {
+			    return ( s.replace(translate_re, function(match, entity) { 
+			      return translate[entity]; 
+			    }) );
+			  }
+			})();
+
 			// sets the description text and replace html special characters
 			var originalString = data.results[randomNumber].description;
 			var editString = replaceHtmlEntites(originalString);
@@ -229,7 +287,7 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			//Jquery plugin self running function that truncates
 			$(function(){
 				$('.description').succinct({
-					size: 400
+					size: 375
 				});
 				$('.title-descrip').succinct({
 					size: 55
@@ -339,17 +397,21 @@ function setMaterial(data, buttonBase, randomNumber) {
 
     else {
 
-		// sets materials info and adds period to last item.
+		// sets materials info and adds period to last item. only prints 6 items total.
 	    $.each(materialArray, function(index, value){
 
 	    	if(index == materialArray.length - 1){
 	    		buttonBase.prev().prev().find('.material').children('span').append(" " + value + '.');
 	    		
 	    	}
-	    	else if(index < materialArray.length - 1)
+	    	else if(index < 5 && index < materialArray.length - 1)
 				buttonBase.prev().prev().find('.material').children('span').append(" " + value + ',');
 			
 		});
 	}
+}
+
+function next(data, buttonBase, randomNumber, array) {
+
 }
 
