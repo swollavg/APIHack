@@ -1,5 +1,6 @@
-//counter used for the images array. needs to be in global space
+//counter used for the images array and shopping cart needs to be in global space
 var current = 0;
+var counterCart = 0;
 
 $(document).ready(function(){
 
@@ -26,6 +27,15 @@ $(document).ready(function(){
 
 	
 	$('#cart-wrapper').hide();
+
+	// removes item from the cart. Adds a class that has a fancy animation transition
+	$(document).on('click', '.cart-button', function(){
+		$(this).closest('.cart-item-wrapper').addClass('cart-button-transition').one('webkitAnimationEnd oanimationend msAnimationEnd animationend',   
+            function(e) {
+    			$(this).remove();
+    			counterCart--;
+			}); 
+	});
 
 	// Dropdown for shirts
 	$('#shirt-drop').click(function(event){
@@ -107,12 +117,11 @@ $(document).ready(function(){
 		});
 	});
 
+
+
 	
 	// Processes Dress data
 	$(dressBase).click(function(){
-
-		//removes event handler that was attached in ajax call
-		$('.next').off();
 		
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
@@ -133,6 +142,7 @@ $(document).ready(function(){
 
 	// Processes Pants data
 	$(pantsBase).click(function(){
+
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
 		var randomNumber = Math.floor((Math.random() * 6) + 1);
@@ -151,6 +161,7 @@ $(document).ready(function(){
 
 	// Processes Shoes data
 	$(shoesBase).click(function(){
+
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
 		var randomNumber = Math.floor((Math.random() * 6) + 1);
@@ -169,6 +180,7 @@ $(document).ready(function(){
 
 	// Processes Jewelry data
 	$(jewelryBase).click(function(){
+
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
 		var randomNumber = Math.floor((Math.random() * 6) + 1);
@@ -187,6 +199,7 @@ $(document).ready(function(){
 
 	// Processes bag data
 	$(bagBase).click(function(){
+
 		//generate random number and offset with each click event
 		var randomOff = Math.floor((Math.random() * 500) + 1);
 		var randomNumber = Math.floor((Math.random() * 6) + 1);
@@ -218,6 +231,7 @@ $(document).ready(function(){
 			$('.header-wrapper').slideDown();
 		});
 	});
+
 });
 
 
@@ -236,20 +250,28 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 		},
 		type: "GET",
 		beforeSend: function(){
+
 			//removes the listing img after each randomize
-			buttonBase.parent('.details').prev().css('background-image', '');
+			buttonBase.parent('.details').prev().children('.list-img').css('background-image', '');
 			// Adds loading Gif
-			buttonBase.parent('.details').prev().html('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
+			buttonBase.parent('.details').prev().children('.list-img').html('<div class="img-wrap"><img src="images/ajax-loader.gif" class="loader" /></div>');
 		},
 		success: function(data){
 
-			
+			//removes click event from cart images
+			buttonBase.prev().off();
+
+			// removes click eventhandler from previous listing
+			buttonBase.parent('.details').prev().children('.next-arrow').off();
 
 			// array of images
 			var picArray = data.results[randomNumber].Images;
+
+			var mainImg = data.results[randomNumber].Images[0].url_570xN;
+			var mainImgUrl = data.results[randomNumber].url;
 			
 			// Removes loading GIF once the image fully loads
-			buttonBase.parent('.details').prev().text('');
+			buttonBase.parent('.details').prev().children('.list-img').text('');
 
 			// shows fields for new randomly generated listing
 			buttonBase.prev().prev().find('.overview-list').show();
@@ -262,16 +284,21 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			buttonBase.prev().prev().find('.overview-list').removeClass("hide");
 			
 			// sets the items first picture 
-			buttonBase.parent('.details').prev().css("background-image", 'url(' + data.results[randomNumber].Images[0].url_570xN + ")");
-			buttonBase.parent('.details').prev().attr('href', data.results[randomNumber].url);
+			buttonBase.parent('.details').prev().children('.list-img').css("background-image", 'url(' + mainImg + ")");
+			buttonBase.parent('.details').prev().children('.list-img').attr('href', mainImgUrl);
+
+			buttonBase.parent('.details').prev().children('.next-arrow').on('click', function(){
+				next(data, buttonBase, randomNumber, picArray);
+			});
+
 
 			console.log(data.results[randomNumber].Images);
 
-
-			$('.next').on('click', function(event){
-				event.preventDefault();
-				next(data, buttonBase, randomNumber, picArray);
+			// add images to the cart
+			buttonBase.prev().on('click', function(){
+				addToCart(data, buttonBase, randomNumber, mainImg, mainImgUrl);
 			});
+			
 
 			//sets user name and shop link
 			setShopAndName(data, buttonBase, randomNumber);
@@ -307,10 +334,10 @@ function processEtsyData(filter, buttonBase, off, randomNumber) {
 			//Jquery plugin self running function that truncates
 			$(function(){
 				$('.description').succinct({
-					size: 375
+					size: 400
 				});
 				$('.title-descrip').succinct({
-					size: 55
+					size: 45
 				});
 				
 			});
@@ -433,7 +460,7 @@ function setMaterial(data, buttonBase, randomNumber) {
 
 
 function next(data, buttonBase, randomNumber, picArray) {
-	// when next is clicked, cycles through the images array.
+	// scrolls through images on click
 	current++;
 	console.log(current);
 	
@@ -444,9 +471,41 @@ function next(data, buttonBase, randomNumber, picArray) {
 	}
 	
 	
-	buttonBase.parent('.details').prev().css("background-image", 'url(' + picArray[current].url_570xN + ")");
-	buttonBase.parent('.details').prev().attr('href', data.results[randomNumber].url);
+	buttonBase.parent('.details').prev().children('.list-img').css("background-image", 'url(' + picArray[current].url_570xN + ")");
+	buttonBase.parent('.details').prev().children('.list-img').attr('href', data.results[randomNumber].url);
     
 
+}
+
+function addToCart(data, buttonBase, randomNumber, mainImg, mainImgUrl) {
+	
+	counterCart++;
+
+	if(counterCart <= 9) {
+	 	var addCartClone = buttonBase.parents('.wrapper').find('#firstCart').clone();
+
+	 	// changes the rest of the cart items to block. 
+	 	addCartClone.css('display', 'block');
+
+	 	// changes src of image
+	 	addCartClone.find('.cart-pic').attr('src', mainImg);
+
+	 	// changes link of image
+	 	addCartClone.find('.cart-pic-link').attr('href', mainImgUrl);
+
+	 	// adds the cloned element to the DOM
+		$('.cart-instruct').after(addCartClone);
+
+		buttonBase.next().finish().fadeIn().delay(3000).fadeOut(1500);
+	}
+
+	else {
+		alert('You can only have 9 items in your cart');
+	}
+
+}
+
+function successText(data, buttonBase, randomNumber) {
+	
 }
 

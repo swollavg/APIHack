@@ -21,15 +21,17 @@
 	<div class="wrapper">
 		<div id="cart-wrapper" class="clearfix">
 			<h2 class="cart-instruct">Click on a link to visit the real Etsy Website!</h2>
-			<div class="cart-item-wrapper">
-				<a href="#" target="_blank"><img src="images/dress.jpg" class="cart-pic" alt="pic"></a>
-				<a href="#" target="_blank" class="cart-button">Visit Listing</a>
+
+			<div class="cart-item-wrapper" id="firstCart">
+
+				<a href="#" target="_blank" class="cart-pic-link">
+					<img src="images/dress.jpg" class="cart-pic" alt="pic">
+				</a>
+
+				<button class="cart-button"></button>
 			</div>
 			
-			<div class="cart-item-wrapper">
-				<a href="#" target="_blank"><img src="images/dress.jpg" class="cart-pic" alt="pic"></a>
-				<a href="#" target="_blank" class="cart-button">Visit Listing</a>
-			</div>
+			
 
 			<div class="cart clear">
 				<a href="#">My Cart</a>
@@ -56,9 +58,11 @@
 			</div>
 
 			<div class="shirt clearfix">
-				<img src="images/next.png" alt="next" class="next-arrow">
-				<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
-				
+				<div class="testerwrapper">
+					<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
+					
+					<button class="next-arrow"></button>
+				</div>
 				
 				<div class="details clearfix">
 					<div class="description-wrapper clearfix">
@@ -106,6 +110,7 @@
 					
 					<button class="add-cart">Add to Cart</button>
 					<button class="random" id="dress-button">Randomize</button>
+					<p class="success">The item was successfully added to your cart</p>
 
                 </div>
 				
@@ -121,7 +126,11 @@
 			</div>
 
 			<div class="pants clearfix">
-				<a href="#" target="_blank" class="list-img" id="pants-pic"></a>
+				<div class="testerwrapper">
+					<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
+					
+					<button class="next-arrow"></button>
+				</div>
 				
 				<div class="details clearfix">
 					<div class="description-wrapper clearfix">
@@ -169,6 +178,7 @@
 					
 					<button class="add-cart">Add to Cart</button>
 					<button class="random" id="pants-button">Randomize</button>
+					<p class="success">The item was successfully added to your cart</p>
 
                 </div>
 				
@@ -184,7 +194,11 @@
 			</div>
 
 			<div class="shoes clearfix">
-				<a href="#" target="_blank" class="list-img" id="shoes-pic"></a>
+				<div class="testerwrapper">
+					<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
+					
+					<button class="next-arrow"></button>
+				</div>
 				
 				<div class="details clearfix">
 					<div class="description-wrapper clearfix">
@@ -232,6 +246,7 @@
 					
 					<button class="add-cart">Add to Cart</button>
 					<button class="random" id="shoes-button">Randomize</button>
+					<p class="success">The item was successfully added to your cart</p>
 
                 </div>
 				
@@ -247,7 +262,11 @@
 			</div>
 
 			<div class="jewelry clearfix">
-				<a href="#" target="_blank" class="list-img" id="jewelry-pic"></a>
+				<div class="testerwrapper">
+					<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
+					
+					<button class="next-arrow"></button>
+				</div>
 				
 				<div class="details clearfix">
 					<div class="description-wrapper clearfix">
@@ -295,6 +314,7 @@
 					
 					<button class="add-cart">Add to Cart</button>
 					<button class="random" id="jewelry-button">Randomize</button>
+					<p class="success">The item was successfully added to your cart</p>
 
                 </div>
 				
@@ -310,7 +330,11 @@
 			</div>
 
 			<div class="bags clearfix">
-				<a href="#" target="_blank" class="list-img" id="bags-pic"></a>
+				<div class="testerwrapper">
+					<a href="#" target="_blank" class="list-img" id="shirt-pic"></a>
+					
+					<button class="next-arrow"></button>
+				</div>
 				
 				<div class="details clearfix">
 					<div class="description-wrapper clearfix">
@@ -355,14 +379,12 @@
 							</ul>
 						</div>
 				    </div>
-					
+	
 					<button class="add-cart">Add to Cart</button>
 					<button class="random" id="bag-button">Randomize</button>
+					<p class="success">The item was successfully added to your cart</p>
 
                 </div>
-				
-			</div> <!-- End Bags-->
-			<a href="#" class="next">CLICK ME</a>
 
 		</div> <!-- End main content wrapper -->
 	</div> <!-- End wrapper -->
